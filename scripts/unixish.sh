@@ -21,14 +21,8 @@ _root_name="quarkus-cli-$QUARKUS_VERSION"
 echo "Creating temporary directory $RUNNER_TEMP/${_root_name}"
 mkdir -p "$RUNNER_TEMP/${_root_name}"
 
-if [[ $DL_COMPRESSED == 'true' ]]; then
-  _dl_name="${_root_name}.tar.gz"
-  _dl_path="$RUNNER_TEMP/${_dl_name}"
-else
-  _dl_name="${_root_name}"
-  _dl_path="$RUNNER_TEMP/${_root_name}/${_dl_name}"
-fi
-
+_dl_name="${_root_name}.tar.gz"
+_dl_path="$RUNNER_TEMP/${_dl_name}"
 _dl_url="${_base_url}/$QUARKUS_VERSION/${_dl_name}"
 
 echo '::endgroup::'
@@ -42,13 +36,11 @@ wget -O- "${_dl_url}" > "${_dl_path}"
 
 echo '::endgroup::'
 
-if [[ $DL_COMPRESSED == 'true' ]]; then
-  echo '::group::Expanding archive'
-  tar -xzv -C "$RUNNER_TEMP/${_root_name}" -f "${_dl_path}"
-  echo "Removing ${_dl_path}"
-  rm -rf "${_dl_path}"
-  echo '::endgroup::'
-fi
+echo '::group::Expanding archive'
+tar -xzv -C "$RUNNER_TEMP/${_root_name}" -f "${_dl_path}"
+echo "Removing ${_dl_path}"
+rm -rf "${_dl_path}"
+echo '::endgroup::'
 
 echo '::group::Copying to tool cache'
 

@@ -39,7 +39,6 @@ runs:
       if: (runner.os == 'Linux' || runner.os == 'macOS') && (steps.quarkus-check-unix.outputs.found == 'false' || inputs.force == 'true')
       shell: bash
       env:
-        DL_COMPRESSED: "${{ inputs.download-compressed == 'true' }}"
         QUARKUS_VERSION: '${{ inputs.version }}'
       run: $GITHUB_ACTION_PATH/scripts/unixish.sh
 
