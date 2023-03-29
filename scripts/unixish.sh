@@ -44,13 +44,10 @@ echo '::endgroup::'
 
 echo '::group::Copying to tool cache'
 
-echo "Creating tool cache directory $RUNNER_TOOL_CACHE/quarkus"
-mkdir -p "$RUNNER_TOOL_CACHE/quarkus"
-
 echo "Installing into tool cache:"
 echo "Src: $RUNNER_TEMP/${_root_name}/${_root_name}"
-echo "Dst: $RUNNER_TOOL_CACHE/quarkus/quarkus"
-mv "$RUNNER_TEMP/${_root_name}/${_root_name}" "$RUNNER_TOOL_CACHE/quarkus/quarkus"
+echo "Dst: $RUNNER_TOOL_CACHE/quarkus"
+mv "$RUNNER_TEMP/${_root_name}/${_root_name}" "$RUNNER_TOOL_CACHE/quarkus"
 
 echo "Removing $RUNNER_TEMP/${_root_name}"
 rm -rf "$RUNNER_TEMP/${_root_name}"
