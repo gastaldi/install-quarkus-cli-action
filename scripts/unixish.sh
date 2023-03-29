@@ -6,7 +6,7 @@ echo '::group::Prep'
 
 # validate input and prepare some vars
 
-_base_url='https://github.com/mikefarah/yq/releases/download'
+_base_url='https://github.com/quarkusio/quarkus/releases/download'
 
 _os=
 _arch=
@@ -16,43 +16,7 @@ _dl_name=
 _dl_path=
 _dl_url=
 
-case $RUNNER_OS in
-  Linux)
-    _os='linux'
-    ;;
-  macOS)
-    _os='darwin'
-    ;;
-
-  *)
-    echo "Cannot handle OS of type $RUNNER_OS"
-    echo "Expected one of: [ Linux macOS ]"
-    exit 1
-    ;;
-esac
-
-case $RUNNER_ARCH in
-  'X86')
-    _arch='386'
-    ;;
-  'X64')
-    _arch='amd64'
-    ;;
-  'ARM')
-    _arch='arm'
-    ;;
-  'ARM64')
-    _arch='arm64'
-    ;;
-
-  *)
-    echo "Cannot handle arch of type $RUNNER_ARCH"
-    echo "Expected one of: [ X86 X64 ARM ARM64 ]"
-    exit 1
-    ;;
-esac
-
-_root_name="yq_${_os}_${_arch}"
+_root_name="quarkus-cli-$QUARKUS_VERSION"
 
 echo "Creating temporary directory $RUNNER_TEMP/${_root_name}"
 mkdir -p "$RUNNER_TEMP/${_root_name}"
@@ -65,11 +29,11 @@ else
   _dl_path="$RUNNER_TEMP/${_root_name}/${_dl_name}"
 fi
 
-_dl_url="${_base_url}/$YQ_VERSION/${_dl_name}"
+_dl_url="${_base_url}/$QUARKUS_VERSION/${_dl_name}"
 
 echo '::endgroup::'
 
-echo '::group::Downloading yq'
+echo '::group::Downloading Quarkus CLI'
 
 echo "Src: ${_dl_url}"
 echo "Dst: ${_dl_path}"
@@ -88,18 +52,18 @@ fi
 
 echo '::group::Copying to tool cache'
 
-echo "Creating tool cache directory $RUNNER_TOOL_CACHE/yq"
-mkdir -p "$RUNNER_TOOL_CACHE/yq"
+echo "Creating tool cache directory $RUNNER_TOOL_CACHE/quarkus"
+mkdir -p "$RUNNER_TOOL_CACHE/quarkus"
 
 echo "Installing into tool cache:"
 echo "Src: $RUNNER_TEMP/${_root_name}/${_root_name}"
-echo "Dst: $RUNNER_TOOL_CACHE/yq/yq"
-mv "$RUNNER_TEMP/${_root_name}/${_root_name}" "$RUNNER_TOOL_CACHE/yq/yq"
+echo "Dst: $RUNNER_TOOL_CACHE/quarkus/quarkus"
+mv "$RUNNER_TEMP/${_root_name}/${_root_name}" "$RUNNER_TOOL_CACHE/quarkus/quarkus"
 
 echo "Removing $RUNNER_TEMP/${_root_name}"
 rm -rf "$RUNNER_TEMP/${_root_name}"
 
-echo "Adding $RUNNER_TOOL_CACHE/yq to path..."
-echo "$RUNNER_TOOL_CACHE/yq" >> $GITHUB_PATH
+echo "Adding $RUNNER_TOOL_CACHE/quarkus/bin to path..."
+echo "$RUNNER_TOOL_CACHE/quarkus/bin" >> $GITHUB_PATH
 
 echo '::endgroup::'
